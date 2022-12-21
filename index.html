@@ -21,8 +21,19 @@
     </header>
     <main>
         
-        <div class="container mt-5 col-6">
-            
+        <div class="container mt-5 col-9">
+            <div id ="alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>New version!</strong>
+                
+                    <li>
+                        Added Modify Task button
+                    </li>
+                    <li>
+                        Fixed Footer
+                    </li>
+                
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeAlert()"></button>
+            </div>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Write down your tasks here"
                     aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -31,21 +42,22 @@
             </div>
             <ul id="tasklist" class="list-group">
                 <li class="list-group-item">
-                    <h3>create your tasks</h3>
-                    
+                    <h3 class = "flex-grow-1">create your first task</h3>
+                    <button class="btn btn-warning "  onclick="editTask(this)" >Modify</button>
                     <button id="comp-btn" class="btn btn-success "  onclick="deleteTask(this)" >Task completed</button>
                 </li>    
             </ul>
 
         </div>
     </main>
-    <footer class="text-center text-white position-absolute w-100 bottom-0" style="background-color: #0a4275;">
+    <footer class="text-center text-white position-fixed w-100 bottom-0" style="background-color: #0a4275;">
         <!-- Grid container -->
         <div class="container p-4 pb-0">
           
           <section class="">
             <p class="d-flex justify-content-center align-items-center">
               <span class="me-3">More updates coming soon </span>
+              
               <button type="button" class="btn btn-outline-danger btn-rounded" onclick="window.location.href='https://www.instagram.com/22aman_k/';">
                 Follow me
               </button>
@@ -55,9 +67,14 @@
         </div>
          
         
-      </footer>
-    <script>
-        
+    </footer>
+
+    <script>   
+        //remove Alert
+        function removeAlert(){
+            let ralert = document.getElementById('alert')
+            ralert.remove()
+        } 
         //add task
         let add_btn = document.getElementById('add-btn')
         let taskList = document.getElementById('tasklist')
@@ -71,8 +88,8 @@
             let newtask = document.createElement('li')
             newtask.classList.add('list-group-item')
             newtask.innerHTML = 
-            `<h3>${taskInput.value}</h3>
-            
+            `<h3 class = "flex-grow-1">${taskInput.value}</h3>
+            <button  class="btn btn-warning "  onclick="editTask(this)">Modify</button>
             <button id="comp-btn" class="btn btn-success "  onclick="deleteTask(this)" >Task completed</button>`
 
             
@@ -90,23 +107,32 @@
                 emptymsg.classList.add('emptymsg')
                 tasklist.appendChild(emptymsg)
             }
-            
+        }  
         //edit task
-        function editTask(e){
-            if(e.textContent == "Edit Task"){
-                e.textContent = "Update"
-                /*let currTask = e.previousElementSibling.value
-                let newtaskinput = document.createElement('h3')
-                newtaskinput.type = 'text'
-                newtaskinput.placeholder = 'task'
-                newtaskinput.className.add('form-control')
-                newtaskinput.value = carrTask
-                e.parentElement.replaceChild(newtaskinput,e)*/
+        function editTask(curr){
+            if(curr.textContent == "Update"){
+                curr.textContent = "Modify"
+                let newTask = curr.previousElementSibling.value
+                let newtaskheading = document.createElement('h3')
+                newtaskheading.className = "flex-grow-1"
+                newtaskheading.textContent = newTask
+                curr.parentElement.replaceChild(newtaskheading,curr.previousElementSibling)
+            }
+            else{
+                curr.textContent = "Update"
+                let currTask = curr.previousElementSibling.textContent
+                let newtaskinput = document.createElement('input')
+                newtaskinput.type = "task"
+                newtaskinput.placeholder = "modify your task"
+                newtaskinput.className = "form-control"
+                newtaskinput.classList.add("mb-2")
+                //newtaskinput.value = carrTask
+                curr.parentElement.replaceChild(newtaskinput,curr.previousElementSibling)
             }
 
         }
         
-        }
+        
 
     </script>
 </body>
